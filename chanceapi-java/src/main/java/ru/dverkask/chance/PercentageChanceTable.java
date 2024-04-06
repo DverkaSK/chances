@@ -1,6 +1,11 @@
 package ru.dverkask.chance;
 
 public class PercentageChanceTable<T> extends ChanceTable<T> {
+    @SafeVarargs protected PercentageChanceTable(Chance<T>... chances) {
+        for (Chance<T> chance : chances) {
+            this.addChance(chance.item(), chance.chance());
+        }
+    }
     @Override
     public void addChance(T item, double chance) {
         if (chance < 0 || chance > 1) {
@@ -16,7 +21,7 @@ public class PercentageChanceTable<T> extends ChanceTable<T> {
         for (Chance<T> chance : chances) {
             cumulativeProbability += chance.chance();
             if (p <= cumulativeProbability) {
-                return chance.object();
+                return chance.item();
             }
         }
         return null; // или выбросить исключение, если список пуст

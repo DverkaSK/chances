@@ -1,6 +1,11 @@
 package ru.dverkask.chance;
 
 public class WeightChanceTable<T> extends ChanceTable<T> {
+    @SafeVarargs protected WeightChanceTable(Chance<T>... chances) {
+        for (Chance<T> chance : chances) {
+            this.addChance(chance.item(), chance.chance());
+        }
+    }
     @Override
     public void addChance(T item, double weight) {
         if (weight < 0) {
@@ -17,7 +22,7 @@ public class WeightChanceTable<T> extends ChanceTable<T> {
         for (Chance<T> chance : chances) {
             countWeight += chance.chance();
             if (r < countWeight) {
-                return chance.object();
+                return chance.item();
             }
         }
         return null; // или выбросить исключение, если список пуст
