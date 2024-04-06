@@ -1,19 +1,7 @@
 package ru.dverkask.chance;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-@Retention(RetentionPolicy.RUNTIME)
-@Target(value = {
-        ElementType.FIELD,
-        ElementType.LOCAL_VARIABLE
-})
-public @interface ChanceType {
-    Type value();
-    enum Type {
-        PERCENTAGE,
-        WEIGHT
-    }
+public enum ChanceType {
+    PERCENTAGE,
+    WEIGHT
+    ;
 }

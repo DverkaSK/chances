@@ -3,27 +3,21 @@ package ru.dverkask.chance;
 import java.util.*;
 
 public abstract class ChanceTable<T> {
-    private final List<Chance<T>> chances = new ArrayList<>();
-    private double totalWeight;
-    private final Random rand = new Random();
+    protected List<Chance<T>> chances = new ArrayList<>();
 
-    private ChanceTable(List<Chance<T>> chances) {
-        this.chances.addAll(chances);
-        chances.forEach(chance -> totalWeight += chance.chance());
+    public static <T> ChanceTable<T> create(ChanceType type) {
+        return switch (type) {
+            case PERCENTAGE -> new PercentageChanceTable<>();
+            case WEIGHT -> new WeightChanceTable<>();
+            default -> throw new IllegalArgumentException("Unknown type: " + type);
+        };
     }
 
-    @SafeVarargs public static <T> ChanceTable<T> create(Chance<T>... chances) {
-        return null;
-    }
+    public abstract void addChance(T item, double chance);
 
-    public T roll() {
-        double randNum = rand.nextDouble() * totalWeight;
-        for (Chance<T> chance : chances) {
-            if (randNum < chance.chance()) {
-                return chance.object();
-            }
-            randNum -= chance.chance();
-        }
-        throw new RuntimeException("Should never reach here if totalWeight is correctly calculated.");
+    public abstract T roll();
+
+    public enum ChanceType {
+        PERCENTAGE, WEIGHT
     }
 }
