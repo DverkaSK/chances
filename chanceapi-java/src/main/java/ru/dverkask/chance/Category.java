@@ -14,8 +14,16 @@ public class Category<T> {
         this.items = new ArrayList<>();
     }
 
+    public Category(double weight) {
+        this(null, weight);
+    }
+
     public void addItem(T item, double chance) {
-        items.add(new Chance<>(item, chance));
+        this.items.add(new Chance<>(item, chance));
+    }
+
+    public void addItem(T item) {
+        this.addItem(item, weight);
     }
 
     public String getName() {

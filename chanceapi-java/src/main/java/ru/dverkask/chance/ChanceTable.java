@@ -14,7 +14,6 @@ public abstract class ChanceTable<T> implements Iterable<T> {
         return switch (type) {
             case PERCENTAGE -> new PercentageChanceTable<>(chances);
             case WEIGHT -> new WeightChanceTable<>(chances);
-            default -> throw new IllegalArgumentException("Unknown type: " + type);
         };
     }
 
@@ -32,6 +31,26 @@ public abstract class ChanceTable<T> implements Iterable<T> {
     }
 
     public abstract void addChance(T item, double chance);
+    public void addCategory(Category<T> category) {
+        for (Chance<T> item : category.getItems()) {
+            this.addChance(item.item(), item.chance());
+        }
+    }
 
     public abstract T roll();
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("ChanceTable{chances=[");
+        for (int i = 0; i < chances.size(); i++) {
+            Chance<T> chance = chances.get(i);
+            sb.append("Chance{item=").append(chance.item().toString())
+                    .append(", chance=").append(chance.chance()).append("}");
+            if (i < chances.size() - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("]}");
+        return sb.toString();
+    }
 }

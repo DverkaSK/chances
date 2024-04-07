@@ -25,6 +25,6 @@ public class WeightChanceTable<T> extends ChanceTable<T> {
                 return chance.item();
             }
         }
-        return null; // или выбросить исключение, если список пуст
+        return null;
     }
 }
