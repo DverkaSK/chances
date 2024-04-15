@@ -5,9 +5,9 @@ class WeightChanceTable<T>(chances: List<Chance<T>>) : ChanceTable<T>() {
         chances.forEach { addChance(it.item, it.chance) }
     }
 
-    override fun addChance(item: T, weight: Double) {
-        require(weight >= 0) { "Weight must be positive" }
-        chances.add(Chance(item, weight))
+    override fun addChance(item: T, chance: Double) {
+        require(chance >= 0) { "Weight must be positive" }
+        chances.add(Chance(item, chance))
     }
 
     override fun roll(): T? {
